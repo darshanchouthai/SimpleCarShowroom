@@ -1,0 +1,348 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class CarShowroomGUI extends JFrame {
+    private JLabel showroomLabel;
+    private JButton showCarDetailsButton, showBookingDetailsButton, showServicesButton, showServiceDetailsButton;
+    private JPanel carDetailsPanel;
+    private ArrayList<String> bookedCars;
+    private ArrayList<String> bookedServices;
+    private JTable bookingTable;
+    private JTable serviceTable;
+    private JScrollPane carInfoScrollPane;
+    private JScrollPane serviceScrollPane;
+
+    public CarShowroomGUI() {
+        setTitle("Car Showroom");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+
+        bookedCars = new ArrayList<>();
+        bookedServices = new ArrayList<>();
+
+        showroomLabel = new JLabel("<html>"
+        + "<head>"
+        + "<style>"
+        + "body {"
+        + "  font-family: Arial, sans-serif;"
+        + "  margin: 0;"
+        + "  padding: 0; "
+        + "}"
+        + "header {"
+        + "  background-color: #333;"
+        + "  color: #fff;"
+        + "  padding: 10px 0;"
+        + "  text-align: center;"
+        + "}"
+        + "nav {"
+        + "  display: flex;"
+        + "  justify-content: center;"
+        + "  margin-bottom: 20px;"
+        + "}"
+        + "nav a {"
+        + "  color: #fff;"
+        + "  text-decoration: none;"
+        + "  margin: 0 10px;"
+        + "}"
+        + ".banner {"
+        + "  text-align: center;"
+        + "  margin-bottom: 20px;"
+        + "}"
+        + ".banner img {"
+        + "  max-width: 100%;"
+        + "}"
+        + ".container {"
+        + "  width: 80%;"
+        + "  margin: 0 auto;"
+        + "}"
+        + ".featured {"
+        + "  display: flex;"
+        + "  justify-content: space-between;"
+        + "  margin-bottom: 20px;"
+        + "}"
+        + ".featured .car {"
+        + "  flex-basis: 30%;"
+        + "  padding: 10px;"
+        + "  border: 1px solid #ccc;"
+        + "  border-radius: 5px;"
+        + "}"
+        + ".car img {"
+        + "  max-width: 100%;"
+        + "}"
+        + ".car h3 {"
+        + "  margin-top: 10px;"
+        + "}"
+        + "footer {"
+        + "  background-color: red;"
+        + "  color: #fff;"
+        + "  text-align: center;"
+        + "  padding: 10px 0;"
+        + "  position: fixed;"
+        + "  bottom: 0;"
+        + "  width: 100%;"
+        + "}"
+        + "</style>"
+        + "</head>"
+        + "<body style='background-color: ;' >"
+        + "<header>"
+        +"<div style='background-color: blue;>"
+        + "<h1 style='text-align: center; style='font-size: 23;'> Welcome To Nexa</h1>"
+        + "<nav style='background-color: goldenrod;'>"
+        + "<p style='font-size: 19; text-align: center;'>Showroom Location: 123 Main Street, Bengaluru</p>"
+                + "<p style='font-size: 19; text-align: center;'>Contact Number: 555-123-4567</p>"
+                + "<p style='font-size: 19;text-align: center;'>Email: info@nexamotors.com</p>"
+                + "<p style='font-size: 19;text-align: center;'>Customer Care: 1800-123-4567</p>"
+                + "<p style='font-size: 19;text-align: center;'>Working Hours: Monday to Friday, 9:00 AM to 6:00 PM</p>"
+                + "<p style='font-size: 19;text-align: center;'>Services: Sales, Service, Spare Parts</p>"
+
+        + "</nav>"
+        +"</div>"
+        + "</header>"
+        + "<div class=\"banner\">"
+        + "<img src=\"https://tse3.mm.bing.net/th?id=OIP.sIG1-EO7Xv7L1jWXO23cXAHaFj&pid=Api&P=0&h=180\" alt=\"Banner Image\">"
+        + "</div>"
+        +"<h2 style='color:green; text-align: center'>Our Best Sellers Are</h2>"
+        + "<div class=\"container\">"
+        + "<div class=\"featured\">"
+        + "<div class=\"car\">"
+        + "<img src=\"https://tse1.mm.bing.net/th?id=OIP.hXwNAIotsYSRjjEvEhpCJQHaE8&pid=Api&rs=1&c=1&qlt=95&w=175&h=117\" alt=\"Car 1\">"
+        + "<h3 style='color: red'>Baleno</h3>"
+        + "<p>Engine: 1199CC</p>"
+        +"<p> Milage: 20 Km/L</p>"
+        +"<p> Price: Starting at 5,00,000 Rupees</p>"
+        + "</div>"
+        + "<div class=\"car\">"
+        + "<img src=\"https://tse4.mm.bing.net/th?id=OIP.h1Iwbex2Bj_y5vugk0pRVQHaE8&pid=Api&P=0&h=180\" alt=\"Car 2\">"
+        + "<h3 style='color: red'>Ertiga</h3>"
+        + "<p>Engine: 2000CC</p>"
+        +"<p>Milage: 19 Km/L</p>"
+        +"<p>Price: Starting Onwards 10,00,000 Rupees</p>"
+        + "</div>"
+        + "<div class=\"car\">"
+        + "<img src=\"https://tse1.mm.bing.net/th?id=OIP.CHQy-VPAh4E-HT3s9YipOgAAAA&pid=Api&P=0&h=180\" alt=\"Car 3\">"
+        + "<h3 style='color:red;'>Swift Dzire</h3>"
+        + "<p>Engine: 1670CC</p>"
+        + "<p>Milage: 22 Km/L</p>"
+        +"<p>Price: Starting Onwards 5,00,000 Rupees</p>"
+        + "</div>"
+        + "</div>"
+        + "</div>"
+        + "<footer>"
+        + "<p>&copy; 2024 Car Showroom. All rights reserved.</p>"
+        + "</footer>"
+        + "</body>"
+        + "</html>");
+
+        showroomLabel.setHorizontalAlignment(JLabel.CENTER);
+        showCarDetailsButton = new JButton("Show Car Details");
+        showCarDetailsButton.setPreferredSize(new Dimension(120, 30));
+        showBookingDetailsButton = new JButton("Show Booking Details");
+        showBookingDetailsButton.setPreferredSize(new Dimension(120, 30));
+        showServicesButton = new JButton("Services");
+        showServicesButton.setPreferredSize(new Dimension(120, 30));
+        showServiceDetailsButton = new JButton("Show Service Details");
+        showServiceDetailsButton.setPreferredSize(new Dimension(160, 30));
+
+        showCarDetailsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showCarDetails();
+            }
+        });
+        showBookingDetailsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showBookingDetails();
+            }
+        });
+        showServicesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showServices();
+            }
+        });
+        showServiceDetailsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showBookingDetails2();
+            }
+        });
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(showroomLabel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(showCarDetailsButton);
+        buttonPanel.add(showBookingDetailsButton);
+        buttonPanel.add(showServicesButton);
+        buttonPanel.add(showServiceDetailsButton);
+        mainPanel.add(buttonPanel, BorderLayout.CENTER);
+
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        getContentPane().add(scrollPane);
+
+        setVisible(true);
+    }
+
+    private void showCarDetails() {
+        String[] carInfo = {"Car 1:\nMake: Maruti\nModel: Baleno\nYear: 2022\nPrice: 5,00,000 Onwards\n",
+                "Car 2:\nMake: Maruti\nModel: Ciaz\nYear: 2021\nPrice: 9,00,000 Onwards\n",
+                "Car 3:\nMake: Maruti\nModel: S-Cross\nYear: 2023\nPrice: 12,00,000 Onwards\n",
+                "Car 4:\nMake: Maruti\nModel: Ignis\nYear: 2024\nPrice: 7,00,000 Onwards\n",
+                "Car 5:\nMake: Maruti\nModel: XL6\nYear: 2022\nPrice: 14,00,000 Onwards\n",
+                "Car 6:\nMake: Maruti\nModel: Ertiga\nYear: 2023\nPrice: 10,00,000 Onwards\n",
+                "Car 7:\nMake: Maruti\nModel: Swift\nYear: 2021\nPrice: 5,00,000 Onwards\n",
+                "Car 8:\nMake: Maruti\nModel: Vitara Brezza\nYear: 2024\nPrice: 5,00,000 Onwards\n",
+                "Car 9:\nMake: Maruti\nModel: Swift Dzire\nYear: 2023\nPrice: 5,00,000 Onwards\n"
+        };
+
+        carDetailsPanel = new JPanel(new GridLayout(carInfo.length, 1));
+
+        for (String info : carInfo) {
+            JTextArea carTextArea = new JTextArea(info);
+            carTextArea.setEditable(false);
+            carDetailsPanel.add(carTextArea);
+
+            JButton bookButton = new JButton("Book");
+
+            Dimension buttonSize = new Dimension(carTextArea.getPreferredSize().width / 500, carTextArea.getPreferredSize().height / 500);
+            bookButton.setPreferredSize(buttonSize);
+            bookButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    bookCar(info);
+                }
+            });
+            carDetailsPanel.add(bookButton);
+        }
+
+        JFrame carDetailsFrame = new JFrame("Car Details");
+        carDetailsFrame.setSize(500, 300);
+        carDetailsFrame.setLocationRelativeTo(null);
+
+        carInfoScrollPane = new JScrollPane(carDetailsPanel);
+        carDetailsFrame.add(carInfoScrollPane);
+        carDetailsFrame.setVisible(true);
+    }
+
+    private void bookCar(String carInfo) {
+        String name = JOptionPane.showInputDialog("Enter your name:");
+        if (name == null || name.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Input not entered!", "Error", JOptionPane.ERROR_MESSAGE);
+            name = JOptionPane.showInputDialog("Enter your name:");
+        }
+
+        String mobileNumber = JOptionPane.showInputDialog("Enter your mobilenumber:");
+        if (mobileNumber == null || mobileNumber.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Input not entered!", "Error", JOptionPane.ERROR_MESSAGE);
+            mobileNumber = JOptionPane.showInputDialog("Enter your mobilenumber:");
+        }
+
+        String bookingDetails = "Car: " + carInfo + ", Name: " + name + ", Mobile Number: " + mobileNumber;
+        bookedCars.add(bookingDetails);
+
+        JOptionPane.showMessageDialog(this, "Booking details saved:\n" + bookingDetails, "Booking Saved", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showBookingDetails() {
+        String[] columnNames = {"Car", "Name", "Mobile Number"};
+        Object[][] data = new Object[bookedCars.size()][3];
+
+        for (int i = 0; i < bookedCars.size(); i++) {
+            String[] details = bookedCars.get(i).split(", ");
+            data[i][0] = details[0].substring(5); // Car
+            data[i][1] = details[1].substring(6); // Name
+            data[i][2] = details[2].substring(14); // Mobile Number
+        }
+
+        bookingTable = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(bookingTable);
+
+        JFrame bookingDetailsFrame = new JFrame("Booking Details");
+        bookingDetailsFrame.add(scrollPane);
+        bookingDetailsFrame.setSize(400, 300);
+        bookingDetailsFrame.setLocationRelativeTo(null);
+        bookingDetailsFrame.setVisible(true);
+    }
+
+    private void showServices() {
+        String[] services = {"Car Washing", " Engene Service", "Spare Parts","Oil Change"};
+
+        JPanel servicePanel = new JPanel(new GridLayout(services.length, 1));
+
+        for (String service : services) {
+            JTextArea serviceTextArea = new JTextArea(service);
+            serviceTextArea.setEditable(false);
+            servicePanel.add(serviceTextArea);
+
+            JButton bookButton = new JButton("Book Service");
+            bookButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    bookService(service);
+                }
+            });
+            servicePanel.add(bookButton);
+        }
+
+        JFrame serviceFrame = new JFrame("Services");
+        serviceFrame.setSize(300, 200);
+        serviceFrame.setLocationRelativeTo(null);
+
+        JScrollPane serviceScrollPane = new JScrollPane(servicePanel);
+        serviceFrame.add(serviceScrollPane);
+        serviceFrame.setVisible(true);
+    }
+
+    private void bookService(String service) {
+        String name = JOptionPane.showInputDialog("Enter your name:");
+        if (name == null || name.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Input not entered!", "Error", JOptionPane.ERROR_MESSAGE);
+            name = JOptionPane.showInputDialog("Enter your name:");
+        }
+
+        String mobileNumber = JOptionPane.showInputDialog("Enter your mobilenumber:");
+        if (mobileNumber == null || mobileNumber.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Input not entered!", "Error", JOptionPane.ERROR_MESSAGE);
+            mobileNumber = JOptionPane.showInputDialog("Enter your mobilenumber:");
+        }
+
+        String vehicle = JOptionPane.showInputDialog("Enter your car:");
+        if (vehicle == null || vehicle.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Input not entered!", "Error", JOptionPane.ERROR_MESSAGE);
+            vehicle = JOptionPane.showInputDialog("Enter your car:");
+        }
+
+        String bookingDetails1 = "Service: " + service + ", Name: " + name + ", Mobile Number: " + mobileNumber + ", Car " + vehicle;
+        bookedServices.add(bookingDetails1);
+
+        JOptionPane.showMessageDialog(this, "Booking details saved:\n" + bookingDetails1, "Booking Saved", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showBookingDetails2() {
+        String[] columnNames2 = {"Service", "Name", "Mobile Number", "Car"};
+        Object[][] data = new Object[bookedServices.size()][4];
+
+        for (int i = 0; i < bookedServices.size(); i++) {
+            String[] details = bookedServices.get(i).split(", ");
+            data[i][0] = details[0].substring(9); // Service
+            data[i][1] = details[1].substring(6); // Name
+            data[i][2] = details[2].substring(14); // Mobile Number
+            data[i][3] = details[3].substring(9); // Vehicle
+        }
+
+        serviceTable = new JTable(data, columnNames2);
+        serviceScrollPane = new JScrollPane(serviceTable);
+
+        JFrame bookingDetailsFrame2 = new JFrame("Booking Details");
+        bookingDetailsFrame2.add(serviceScrollPane);
+        bookingDetailsFrame2.setSize(600, 300);
+        bookingDetailsFrame2.setLocationRelativeTo(null);
+        bookingDetailsFrame2.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new CarShowroomGUI();
+            }
+        });
+    }
+}
